@@ -249,11 +249,6 @@ var NgxSmartModalComponent = (function () {
             this.onDataAdded.emit(this._data);
             this.markForCheck();
         }
-        console.log('Content', this.content);
-        if (this.content instanceof core.EmbeddedViewRef) {
-            console.log('Is embedded view ref', this._data);
-            Object.assign((/** @type {?} */ (this.content)).context, this._data);
-        }
         return this;
     };
     /**
@@ -442,7 +437,6 @@ var NgxSmartModalComponent = (function () {
         "ariaLabel": [{ type: core.Input },],
         "ariaLabelledBy": [{ type: core.Input },],
         "ariaDescribedBy": [{ type: core.Input },],
-        "content": [{ type: core.Input },],
         "visibleChange": [{ type: core.Output },],
         "onClose": [{ type: core.Output },],
         "onCloseFinished": [{ type: core.Output },],
@@ -455,10 +449,10 @@ var NgxSmartModalComponent = (function () {
         "onEscape": [{ type: core.Output },],
         "onDataAdded": [{ type: core.Output },],
         "onDataRemoved": [{ type: core.Output },],
-        "nsmDialog": [{ type: core.ViewChildren, args: ['nsmDialog',] },],
-        "dynamicContentContainer": [{ type: core.ViewChildren, args: ['dynamicContent', { read: core.ViewContainerRef },] },],
         "nsmContent": [{ type: core.ViewChildren, args: ['nsmContent',] },],
+        "nsmDialog": [{ type: core.ViewChildren, args: ['nsmDialog',] },],
         "nsmOverlay": [{ type: core.ViewChildren, args: ['nsmOverlay',] },],
+        "dynamicContentContainer": [{ type: core.ViewChildren, args: ['dynamicContent', { read: core.ViewContainerRef },] },],
         "targetPlacement": [{ type: core.HostListener, args: ['window:resize',] },],
     };
     return NgxSmartModalComponent;
@@ -993,14 +987,13 @@ var NgxSmartModalService = (function () {
         }
         catch (/** @type {?} */ e) {
             var /** @type {?} */ componentFactory = this._componentFactoryResolver.resolveComponentFactory(NgxSmartModalComponent);
-            var /** @type {?} */ ngContent = this._resolveNgContent(content);
+            var /** @type {?} */ ngContent = this._resolveNgContent(content, id);
             var /** @type {?} */ modalNodes = this._getModalNodes(ngContent);
             console.log('Create', { ngContent: ngContent, modalNodes: modalNodes });
             var /** @type {?} */ componentRef = componentFactory.create(this._injector, modalNodes);
             if (content instanceof core.Type) {
                 componentRef.instance.contentComponent = content;
             }
-            componentRef.instance.content = ngContent;
             componentRef.instance.identifier = id;
             componentRef.instance.createFrom = 'service';
             if (typeof options.closable === 'boolean') {
@@ -1232,21 +1225,23 @@ var NgxSmartModalService = (function () {
      * Resolve content according to the types
      * @template T
      * @param {?} content The modal content ( string, templateRef or Component )
+     * @param {?} id
      * @return {?}
      */
     NgxSmartModalService.prototype._resolveNgContent = /**
      * Resolve content according to the types
      * @template T
      * @param {?} content The modal content ( string, templateRef or Component )
+     * @param {?} id
      * @return {?}
      */
-    function (content) {
+    function (content, id) {
         if (typeof content === 'string') {
             var /** @type {?} */ element = this._document.createTextNode(content);
             return element;
         }
         else if (content instanceof core.TemplateRef) {
-            var /** @type {?} */ viewRef = content.createEmbeddedView(/** @type {?} */ (null));
+            var /** @type {?} */ viewRef = content.createEmbeddedView(/** @type {?} */ ({ foo: 'wololo' }));
             this.applicationRef.attachView(viewRef);
             return viewRef;
         }

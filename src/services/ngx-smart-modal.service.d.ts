@@ -148,7 +148,7 @@ export declare class NgxSmartModalService {
      * Resolve content according to the types
      * @param content The modal content ( string, templateRef or Component )
      */
-    private _resolveNgContent<T>(content);
+    private _resolveNgContent<T>(content, id);
     /**
      * Resolve content according to the types
      * @param content The modal content ( string, templateRef or Component )

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, OnDestroy, OnInit, QueryList, Renderer2, Type, ViewContainerRef, EmbeddedViewRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, OnDestroy, OnInit, QueryList, Renderer2, Type, ViewContainerRef } from '@angular/core';
 export declare class NgxSmartModalComponent implements OnInit, OnDestroy, AfterViewInit {
     private _renderer;
     private _changeDetectorRef;
@@ -19,7 +19,6 @@ export declare class NgxSmartModalComponent implements OnInit, OnDestroy, AfterV
     ariaLabel: string | null;
     ariaLabelledBy: string | null;
     ariaDescribedBy: string | null;
-    content: Type<any> | Text | EmbeddedViewRef<any>;
     visibleChange: EventEmitter<boolean>;
     onClose: EventEmitter<any>;
     onCloseFinished: EventEmitter<any>;
@@ -37,11 +36,11 @@ export declare class NgxSmartModalComponent implements OnInit, OnDestroy, AfterV
     overlayVisible: boolean;
     openedClass: boolean;
     createFrom: string;
-    nsmDialog: QueryList<ElementRef>;
-    dynamicContentContainer: QueryList<ViewContainerRef>;
     private _data;
     private nsmContent;
+    nsmDialog: QueryList<ElementRef>;
     private nsmOverlay;
+    dynamicContentContainer: QueryList<ViewContainerRef>;
     constructor(_renderer: Renderer2, _changeDetectorRef: ChangeDetectorRef, componentFactoryResolver: ComponentFactoryResolver, _document: any, _platformId: any);
     ngOnInit(): void;
     ngAfterViewInit(): void;
