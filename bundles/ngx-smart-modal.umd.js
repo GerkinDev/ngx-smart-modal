@@ -250,7 +250,7 @@ var NgxSmartModalComponent = (function () {
             this.markForCheck();
         }
         console.log('Content', this.content);
-        if (this.content instanceof core.ViewRef) {
+        if (this.content instanceof core.EmbeddedViewRef) {
             console.log('Is embedded view ref', this._data);
             Object.assign((/** @type {?} */ (this.content)).context, this._data);
         }

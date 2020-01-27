@@ -3,7 +3,7 @@
  * MIT license
  */
 
-import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, EmbeddedViewRef, EventEmitter, HostListener, Inject, Injectable, Injector, Input, NgModule, Output, PLATFORM_ID, Renderer2, TemplateRef, Type, ViewChildren, ViewContainerRef, ViewRef } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, EmbeddedViewRef, EventEmitter, HostListener, Inject, Injectable, Injector, Input, NgModule, Output, PLATFORM_ID, Renderer2, TemplateRef, Type, ViewChildren, ViewContainerRef } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
@@ -194,7 +194,7 @@ class NgxSmartModalComponent {
             this.markForCheck();
         }
         console.log('Content', this.content);
-        if (this.content instanceof ViewRef) {
+        if (this.content instanceof EmbeddedViewRef) {
             console.log('Is embedded view ref', this._data);
             Object.assign((/** @type {?} */ (this.content)).context, this._data);
         }
