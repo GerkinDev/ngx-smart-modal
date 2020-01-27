@@ -1259,14 +1259,14 @@ var NgxSmartModalService = (function () {
      * @return {?}
      */
     function (content) {
-        if (content instanceof Type) {
-            return [];
+        if (content instanceof Text) {
+            return [[content]];
         }
         else if (content instanceof EmbeddedViewRef) {
             return [content.rootNodes];
         }
         else {
-            return [[content]];
+            return [];
         }
     };
     Object.defineProperty(NgxSmartModalService.prototype, "isBrowser", {
