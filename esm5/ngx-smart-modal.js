@@ -3,7 +3,7 @@
  * MIT license
  */
 
-import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, EmbeddedViewRef, EventEmitter, HostListener, Inject, Injectable, Injector, Input, NgModule, Output, PLATFORM_ID, Renderer2, TemplateRef, Type, ViewChildren, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, HostListener, Inject, Injectable, Injector, Input, NgModule, Output, PLATFORM_ID, Renderer2, TemplateRef, Type, ViewChildren, ViewContainerRef } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
@@ -618,9 +618,7 @@ var NgxSmartModalStackService = (function () {
  * @suppress {checkTypes} checked by tsc
  */
 var NgxSmartModalService = (function () {
-    function NgxSmartModalService(_componentFactoryResolver, _appRef, _injector, _modalStack, applicationRef, _document, 
-        // Do not use the `Document` interface, which cause problem with AoT compilation.
-        _platformId) {
+    function NgxSmartModalService(_componentFactoryResolver, _appRef, _injector, _modalStack, applicationRef, _document, _platformId) {
         var _this = this;
         this._componentFactoryResolver = _componentFactoryResolver;
         this._appRef = _appRef;
@@ -984,10 +982,8 @@ var NgxSmartModalService = (function () {
         }
         catch (/** @type {?} */ e) {
             var /** @type {?} */ componentFactory = this._componentFactoryResolver.resolveComponentFactory(NgxSmartModalComponent);
-            var /** @type {?} */ ngContent = this._resolveNgContent(content, id);
-            var /** @type {?} */ modalNodes = this._getModalNodes(ngContent);
-            console.log('Create', { ngContent: ngContent, modalNodes: modalNodes });
-            var /** @type {?} */ componentRef = componentFactory.create(this._injector, modalNodes);
+            var /** @type {?} */ ngContent = this._resolveNgContent(content);
+            var /** @type {?} */ componentRef = componentFactory.create(this._injector, ngContent);
             if (content instanceof Type) {
                 componentRef.instance.contentComponent = content;
             }
@@ -1222,52 +1218,25 @@ var NgxSmartModalService = (function () {
      * Resolve content according to the types
      * @template T
      * @param {?} content The modal content ( string, templateRef or Component )
-     * @param {?} id
      * @return {?}
      */
     NgxSmartModalService.prototype._resolveNgContent = /**
      * Resolve content according to the types
      * @template T
      * @param {?} content The modal content ( string, templateRef or Component )
-     * @param {?} id
-     * @return {?}
-     */
-    function (content, id) {
-        if (typeof content === 'string') {
-            var /** @type {?} */ element = this._document.createTextNode(content);
-            return element;
-        }
-        else if (content instanceof TemplateRef) {
-            var /** @type {?} */ viewRef = content.createEmbeddedView(/** @type {?} */ ({ foo: 'wololo' }));
-            this.applicationRef.attachView(viewRef);
-            return viewRef;
-        }
-        else {
-            return content;
-        }
-    };
-    /**
-     * Resolve content according to the types
-     * @template T
-     * @param {?} content The modal content ( string, templateRef or Component )
-     * @return {?}
-     */
-    NgxSmartModalService.prototype._getModalNodes = /**
-     * Resolve content according to the types
-     * @template T
-     * @param {?} content The modal content ( string, templateRef or Component )
      * @return {?}
      */
     function (content) {
-        if (content instanceof Text) {
-            return [[content]];
+        if (typeof content === 'string') {
+            var /** @type {?} */ element = this._document.createTextNode(content);
+            return [[element]];
         }
-        else if (content instanceof EmbeddedViewRef) {
-            return [content.rootNodes];
+        if (content instanceof TemplateRef) {
+            var /** @type {?} */ viewRef = content.createEmbeddedView(/** @type {?} */ (null));
+            this.applicationRef.attachView(viewRef);
+            return [viewRef.rootNodes];
         }
-        else {
-            return [];
-        }
+        return [];
     };
     Object.defineProperty(NgxSmartModalService.prototype, "isBrowser", {
         get: /**
